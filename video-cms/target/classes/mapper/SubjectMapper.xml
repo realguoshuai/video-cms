@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhiyou100.dao.SubjectDao">
+	<select id="listObject" resultType="subjectDO">
+			SELECT
+		s.id
+		, s.name as name
+		, count(distinct c.id) as course_count
+		,
+		count(v.id) as video_count
+		FROM
+		subject s LEFT JOIN course c ON s.id =
+		c.subject_id
+		LEFT JOIN video v ON c.id = v.course_id
+
+	</select>
+	<select id="listObjectByQuery" resultType="subjectDO">
+		SELECT
+		s.id
+		, s.name as name
+		, count(distinct c.id) as course_count
+		,
+		count(v.id) as video_count
+		FROM
+		subject s LEFT JOIN course c ON s.id =
+		c.subject_id
+		LEFT JOIN video v ON c.id = v.course_id
+		<where>
+			<if test="keywords != null">
+				<foreach collection="keywords" item="item">
+					OR s.name LIKE
+					'%${item}%'
+				</foreach>
+			</if>
+		<if test="status==0">
+		 AND s.status=0
+		</if>
+		<if test="status==1">
+		 AND s.status=1
+		</if>
+		</where>
+		GROUP BY
+		s.id
+		<if test="sort != null and order != null">
+			ORDER BY ${sort} ${order}
+		</if>
+		<if test="offset != null and limit != null">
+			LIMIT ${offset}, ${limit}
+		</if>
+	</select>
+
+	<select id="countObjectByQuery" resultType="int">
+		SELECT count(*)
+		from (
+		select
+		count(s.id)
+		from subject s
+		left join course c
+		on s.id=c.subject_id
+		left join video v
+		on c.id =v.course_id
+		<where>
+			<if test="keywords!=null">
+				<foreach collection="keywords" item="item">
+					OR s.name LIKE
+					'%${item}%'
+				</foreach>
+			</if>
+		</where>
+		group by s.id
+		)a
+	</select>
+
+	<insert id="insertObject">
+		insert into subject
+		(name)
+		values
+		(#{name})
+
+	</insert>
+
+	<update id="updateObject">
+		update subject
+		set
+		name=#{name}
+		<where>
+			<if test="id!=null">
+				#{id}
+			</if>
+		</where>
+	</update>
+
+
+	<update id="deleteObject">
+		update subject
+			set
+		status=1
+		<where>
+			<if test="id!=null">
+				#{id}
+			</if>
+		</where>
+	</update>
+</mapper>

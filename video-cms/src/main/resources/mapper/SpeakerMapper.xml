@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhiyou100.dao.SpeakerDao">
+	<select id="listObject" resultType="speakerDO">
+		SELECT
+		image_url
+		,name
+		,job
+		,`describe`
+		FROM speaker
+
+	</select>
+	<select id="listObjectByQuery" resultType="speakerDO">
+		SELECT
+		image_url
+		,name
+		,job
+		,`describe`
+		FROM speaker
+		<where>
+			<if test="keywords != null">
+				<foreach collection="keywords" item="item">
+					OR name LIKE
+					'%${item}%'
+				</foreach>
+			</if>
+			<if test="status==0">
+				AND status=0
+			</if>
+			<if test="status==1">
+				AND status=1
+			</if>
+		</where>
+	</select>
+
+	<select id="countObjectByQuery" resultType="int">
+		SELECT count(*)
+		from (
+		SELECT
+		image_url
+		,name
+		,job
+		,`describe`
+		FROM speaker
+		<where>
+			<if test="keywords != null">
+				<foreach collection="keywords" item="item">
+					OR name LIKE
+					'%${item}%'
+				</foreach>
+			</if>
+			<if test="status==0">
+				AND status=0
+			</if>
+			<if test="status==1">
+				AND status=1
+			</if>
+		</where>
+		)a
+	</select>
+
+	<insert id="insertObject">
+		insert into speaker
+		(`name`,`job`,`image_url`,`describe`)
+		values
+		(#{name},#{job},#{imageUrl},#{describe})
+
+	</insert>
+
+	<update id="updateObject">
+		update speaker
+		set
+		name=#{name},
+		job=#{job},
+		image_url=#{imageUrl},
+		`describe`=#{describe}
+		<where>
+			<if test="id!=null">
+				#{id}
+			</if>
+		</where>
+	</update>
+
+
+	<update id="deleteObject">
+		update speaker
+		set
+		status=1
+		<where>
+			<if test="id!=null">
+				#{id}
+			</if>
+		</where>
+	</update>
+
+
+
+</mapper>
