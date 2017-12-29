@@ -9,58 +9,63 @@ import com.zhiyou100.dto.BaseDTO;
 import com.zhiyou100.service.BaseService;
 import com.zhiyou100.vo.QueryVO;
 
-public abstract class BaseServiceImpl<T,D extends BaseDao<T>> implements BaseService<T> {
+// Type Key Value Enum
+public abstract class BaseServiceImpl<T, D extends BaseDao<T>> implements BaseService<T> {
+
 	@Autowired
 	protected D dao;
+
 	public List<T> listObject() {
-		
+
 		return dao.listObject();
 	}
 
 	public BaseDTO<T> listObject(QueryVO queryVO) {
+
+		BaseDTO<T> dto = new BaseDTO<T>();
+
 		int count = dao.countObjectByQuery(queryVO);
-		BaseDTO<T> dto =new BaseDTO<T>();
 		dto.setCount(count);
-		//逻辑处理
-		if (count!=0) {
-			if (queryVO.getLimit()==null) {
-				queryVO.setLimit(5);
-			}//输入为错的
-			if (queryVO.getOffset()==null || queryVO.getOffset()<0) {
+
+		if (count != 0) {
+
+			if (queryVO.getOffset() < 0) {
+
+				// 没有输入正常的 offset，修正为 0
 				queryVO.setOffset(0);
-			}else{
-				//没输入错
-				//查询总数/每页限制数==总页数(最后一页)
-				//最后一页的起始数据=总页数*每页的数据
-				int lastOffset =(count/queryVO.getLimit())*queryVO.getLimit();
-				
-				if (queryVO.getOffset()>lastOffset) {
+			}else  {
+
+				// 正常输入正常的 offset，需要和最后一页的起始索引进行比较
+				int lastOffset = (count / queryVO.getLimit()) * queryVO.getLimit();
+
+				// 如果大于最后一页的起始索引，修正为最后一页的起始索引
+				if (queryVO.getOffset() > lastOffset) {
+
 					queryVO.setOffset(lastOffset);
 				}
 			}
+
+			List<T> rows = dao.listObjectByQuery(queryVO);
+
+			dto.setRows(rows);
 		}
-		List<T> row = dao.listObjectByQuery(queryVO);
-		dto.setRows(row);
+
 		return dto;
-		
 	}
 
+	
 	public void insertObject(T object) {
+
 		dao.insertObject(object);
-		
+	}
+
+	public void removeObject(String ids[]) {
+				
+		dao.removeObject(ids);
 	}
 
 	public void updateObject(T object) {
+		
 		dao.updateObject(object);
-		
 	}
-	public void deleteObject(int id){
-		dao.deleteObject(id);
-	}
-	
-	public void deleteObject(String[] id) {
-		dao.deleteSubject(id);
-		
-	}
-
 }

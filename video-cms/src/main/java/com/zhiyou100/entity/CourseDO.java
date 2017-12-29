@@ -1,27 +1,27 @@
 package com.zhiyou100.entity;
 
 import java.io.Serializable;
-import java.sql.Date;
 
 public class CourseDO implements Serializable {
-	/**
-	 * @fieldName: serialVersionUID
-	 * @fieldType: long
-	 * @Description: TODO
-	 */
-	private static final long serialVersionUID = 6553798117022653929L;
-	private Integer id;
-	private String name;
-	private String describe;
-	private Integer subjectId;
-	private Integer status;
-	private Date gmtCreate;
-	private Date gmtModified;
 
+	private static final long serialVersionUID = -9039877972371453963L;
+
+	private Integer id;
+	
+	private String name;
+
+	private String describe;
+	
+	private Integer subjectId;
+	
+	private Integer status;
+
+	private SubjectDO subject;
+	
 	@Override
 	public String toString() {
 		return "CourseDO [id=" + id + ", name=" + name + ", describe=" + describe + ", subjectId=" + subjectId
-				+ ", status=" + status + ", gmtCreate=" + gmtCreate + ", gmtModified=" + gmtModified + "]";
+				+ ", status=" + status + ", subject=" + subject + "]";
 	}
 
 	public Integer getId() {
@@ -64,24 +64,11 @@ public class CourseDO implements Serializable {
 		this.status = status;
 	}
 
-	public Date getGmtCreate() {
-		return gmtCreate;
+	public SubjectDO getSubject() {
+		return subject;
 	}
 
-	public void setGmtCreate(Date gmtCreate) {
-		this.gmtCreate = gmtCreate;
+	public void setSubject(SubjectDO subject) {
+		this.subject = subject;
 	}
-
-	public Date getGmtModified() {
-		return gmtModified;
-	}
-
-	public void setGmtModified(Date gmtModified) {
-		this.gmtModified = gmtModified;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 }

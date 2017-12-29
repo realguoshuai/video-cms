@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhiyou100.dao.CourseDao">
+
+	<select id="listObject" resultType="courseDO">
+		SELECT
+		id
+		, name
+		FROM
+		course
+		WHERE
+		status == 0
+	</select>
+
+	<resultMap type="courseDO" id="listObjectByQuery">
+		<id property="id" column="course_id" />
+		<result property="name" column="course_name" />
+		<result property="describe" column="describe" />
+		<association property="subject" javaType="subjectDO">
+			<id property="id" column="subject_id" />
+			<result property="name" column="subject_name" />
+		</association>
+	</resultMap>
+
+	<select id="listObjectByQuery" resultType="subjectDO">
+		SELECT
+		c.id course_id
+		, c.name course_name
+		, c.describe
+		, s.id subject_id
+		, s.name subject_name
+		FROM
+		course
+		c LEFT JOIN subject s ON c.subject_id =
+		s.id
+		<where>
+			<if test="subjectId != null">
+				c.subject_id = #{subjectId}
+			</if>
+			AND c.status == 0
+		</where>
+		LIMIT ${offset}, ${limit}
+	</select>
+
+	<select id="countObjectByQuery" resultType="int">
+		SELECT
+		count(*)
+		FROM
+		course
+		c LEFT JOIN subject s ON c.subject_id =
+		s.id
+		<where>
+			<if test="subjectId != null">
+				c.subject_id = #{subjectId}
+			</if>
+			AND c.status == 0
+		</where>
+	</select>
+
+	<insert id="insertObject">
+		INSERT INTO
+		course(name, `describe`, subject_id)
+		VALUES
+		(#{name}, #{describe}, #{subjectId})
+	</insert>
+
+	<update id="updateObject">
+		UPDATE
+		course
+		<set>
+			<if test="name != null">
+				name = #{name},
+			</if>
+
+			<if test="describe != null">
+				`describe` = #{describe},
+			</if>
+
+			<if test="subjectId != null">
+				subject_id = #{subjectId},
+			</if>
+
+			<if test="status != null">
+				status = #{status},
+			</if>
+		</set>
+		WHERE
+		id = #{id}
+	</update>
+
+	<update id="updateSubjectId">
+		UPDATE
+		course
+		SET
+		subject_id = null
+		<where>
+			subject_id IN
+			<foreach collection="arrays" item="item" open="(" close=")" separator=",">
+				${item}
+			</foreach>
+		</where>
+	</update>
+
+</mapper>

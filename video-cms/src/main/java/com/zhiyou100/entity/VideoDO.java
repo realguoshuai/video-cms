@@ -1,34 +1,38 @@
 package com.zhiyou100.entity;
 
-import java.io.Serializable;
-import java.sql.Date;
+public class VideoDO {
 
-public class VideoDO implements Serializable {
-	/**
-	 * @fieldName: serialVersionUID
-	 * @fieldType: long
-	 * @Description: TODO
-	 */
-	private static final long serialVersionUID = 6322598350825695949L;
 	private Integer id;
+	
 	private String name;
+	
 	private String describe;
+	
 	private Integer length;
+	
 	private Integer playCount;
+	
 	private String coverUrl;
+	
 	private String videoUrl;
+	
 	private Integer courseId;
-	private Integer sppeakerId;
+	
+	private Integer speakerId;
+	
 	private Integer status;
-	private Date gmtCreate;
-	private Date gmtModified;
+	
+	private CourseDO course;
+
+	private SpeakerDO speaker;
+	
+	private SubjectDO subject;
 
 	@Override
 	public String toString() {
 		return "VideoDO [id=" + id + ", name=" + name + ", describe=" + describe + ", length=" + length + ", playCount="
 				+ playCount + ", coverUrl=" + coverUrl + ", videoUrl=" + videoUrl + ", courseId=" + courseId
-				+ ", sppeakerId=" + sppeakerId + ", status=" + status + ", gmtCreate=" + gmtCreate + ", gmtModified="
-				+ gmtModified + "]";
+				+ ", speakerId=" + speakerId + "]";
 	}
 
 	public Integer getId() {
@@ -95,12 +99,12 @@ public class VideoDO implements Serializable {
 		this.courseId = courseId;
 	}
 
-	public Integer getSppeakerId() {
-		return sppeakerId;
+	public Integer getSpeakerId() {
+		return speakerId;
 	}
 
-	public void setSppeakerId(Integer sppeakerId) {
-		this.sppeakerId = sppeakerId;
+	public void setSpeakerId(Integer speakerId) {
+		this.speakerId = speakerId;
 	}
 
 	public Integer getStatus() {
@@ -111,24 +115,27 @@ public class VideoDO implements Serializable {
 		this.status = status;
 	}
 
-	public Date getGmtCreate() {
-		return gmtCreate;
+	public CourseDO getCourse() {
+		return course;
 	}
 
-	public void setGmtCreate(Date gmtCreate) {
-		this.gmtCreate = gmtCreate;
+	public void setCourse(CourseDO course) {
+		this.course = course;
 	}
 
-	public Date getGmtModified() {
-		return gmtModified;
+	public SpeakerDO getSpeaker() {
+		return speaker;
 	}
 
-	public void setGmtModified(Date gmtModified) {
-		this.gmtModified = gmtModified;
+	public void setSpeaker(SpeakerDO speaker) {
+		this.speaker = speaker;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public SubjectDO getSubject() {
+		return subject;
 	}
 
+	public void setSubject(SubjectDO subject) {
+		this.subject = subject;
+	}
 }

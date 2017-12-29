@@ -1,14 +1,12 @@
-
 package com.zhiyou100.dto;
 
 import java.util.List;
 
-import com.zhiyou100.entity.SubjectDO;
 
 public class BaseDTO<T> {
-	// 数量
+
 	private Integer count;
-	// row行
+	
 	private List<T> rows;
 
 	@Override
@@ -31,5 +29,4 @@ public class BaseDTO<T> {
 	public void setRows(List<T> rows) {
 		this.rows = rows;
 	}
-
 }

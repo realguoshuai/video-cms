@@ -1,49 +1,19 @@
 package com.zhiyou100.vo;
 
 public class QueryVO {
-	/**
-	 * 请求参数封装类
-	 */
-	/**
-	 * offset,limit 0,5 起始索引,查几个 search 搜索过滤-->keywords sort 排序字段 , order 倒序,正序
-	 * 
-	 */
-	private Integer offset;
 
-	private Integer limit;
-
+	private Integer offset = 0;
+	
+	private Integer limit = 5;
+	
 	private String search;
-
+	
 	private String sort;
-
+	
 	private String order;
-
-	private Integer status;
-	private Integer id;
-	private String ids;
-
-	public QueryVO(Integer offset, Integer limit, String search, String sort, String order, Integer status) {
-		super();
-		this.offset = offset;
-		this.limit = limit;
-		this.search = search;
-		this.sort = sort;
-		this.order = order;
-		this.status = status;
-	}
-
-	public QueryVO(Integer offset, Integer limit, String search, String sort, String order, Integer status, Integer id,
-			String ids) {
-		super();
-		this.offset = offset;
-		this.limit = limit;
-		this.search = search;
-		this.sort = sort;
-		this.order = order;
-		this.status = status;
-		this.id = id;
-		this.ids = ids;
-	}
+	
+	// 在 search 属性的 setter 方法中设置
+	private String[] keywords;
 
 	public QueryVO() {
 		super();
@@ -52,7 +22,7 @@ public class QueryVO {
 	@Override
 	public String toString() {
 		return "QueryVO [offset=" + offset + ", limit=" + limit + ", search=" + search + ", sort=" + sort + ", order="
-				+ order + ", status=" + status + "]";
+				+ order + "]";
 	}
 
 	public Integer getOffset() {
@@ -77,6 +47,12 @@ public class QueryVO {
 
 	public void setSearch(String search) {
 		this.search = search;
+		
+		// 设置 keywords
+		if (search != null && !search.equals("")) {
+			
+			keywords = search.split(" ");
+		}
 	}
 
 	public String getSort() {
@@ -94,42 +70,10 @@ public class QueryVO {
 	public void setOrder(String order) {
 		this.order = order;
 	}
-
-	public Integer getStatus() {
-		return status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
 	
-	public void setIds(String ids) {
-		this.ids = ids;
-	}
-
-	//
+	// 所有地方的属性取值都是通过 get 方法完成的
 	public String[] getKeywords() {
-		if (search == null || search.equals("")) {
-			return null;
-		} else {
-			return search.split(" ");
-		}
-	}
-
-	public String[] getIds() {
-		if (ids == null || ids.equals("")) {
-			return null;
-		} else {
-			return ids.split(" ");
-		}
+		
+		return keywords;
 	}
 }

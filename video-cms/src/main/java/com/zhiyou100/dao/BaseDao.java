@@ -4,24 +4,42 @@ import java.util.List;
 
 import com.zhiyou100.vo.QueryVO;
 
-
 public interface BaseDao<T> {
-	
+	/**
+	 * 返回全部内容
+	 * @return
+	 */
 	List<T> listObject();
 	
-	//返回指定的内容
+	/**
+	 * 返回指定内容
+	 * @param queryVO
+	 * @return
+	 */
 	List<T> listObjectByQuery(QueryVO queryVO);
 	
-	
-	//返回指定内容的总量  上面的数量
+	/**
+	 * 返回指定内容的总量
+	 * @param queryVO
+	 * @return
+	 */
 	int countObjectByQuery(QueryVO queryVO);
 	
+	/**
+	 * 插入内容
+	 * @param object
+	 */
 	void insertObject(T object);
 	
+	/**
+	 * 更新内容
+	 * @param object
+	 */
 	void updateObject(T object);
 	
-	//逻辑删除是把statue更新为1
-	void deleteObject(int id);
-	//可多选删除
-	void deleteSubject(String[] id);
+	/**
+	 * 删除指定的 id 信息
+	 * @param ids
+	 */
+	void removeObject(String[] ids);
 }

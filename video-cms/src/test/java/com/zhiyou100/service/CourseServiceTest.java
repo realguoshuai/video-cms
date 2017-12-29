@@ -1,67 +1,41 @@
 package com.zhiyou100.service;
 
+import static org.junit.Assert.*;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.zhiyou100.vo.QueryVO;
-
 import junit.framework.TestCase;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:spring-service.xml")
+@ContextConfiguration("classpath:spring/spring-service.xml")
 public class CourseServiceTest {
+
 	@Autowired
 	private CourseService service;
-
+	
 	@Test
 	public void testListObject() {
-
+		
+		TestCase.assertEquals(6, service.listObject().size());
 	}
 
 	@Test
 	public void testListObjectQueryVO() {
-		// 分页
-		QueryVO queryVO = new QueryVO(0, 5, null, null, null,0);
-		TestCase.assertEquals(5, service.listObject(queryVO).getRows().size());
-
-		// 搜索 + 分页默认值
-		queryVO = new QueryVO(null, null, "P", null, null,0);
-		TestCase.assertEquals(2, service.listObject(queryVO).getRows().size());
-
-		// 搜索 + 分页指定值
-		queryVO = new QueryVO(0, 1, "P", null, null,0);
-		TestCase.assertEquals(1, service.listObject(queryVO).getRows().size());
-
-		// 排序 + 分页默认值
-		queryVO = new QueryVO(null, null, null, "name", "desc",0);
-		TestCase.assertEquals(5, service.listObject(queryVO).getRows().size());
-
-		// 排序 + 分页指定值
-		queryVO = new QueryVO(5, 5, null, "course_count", "asc",0);
-		TestCase.assertEquals(5, service.listObject(queryVO).getRows().size());
-
-		// 排序 + 搜索 + 分页指定值
-		queryVO = new QueryVO(0, 5, "U P O", "video_count", "desc",0);
-		TestCase.assertEquals(5, service.listObject(queryVO).getRows().size());
-
+		fail("Not yet implemented");
 	}
 
 	@Test
 	public void testInsertObject() {
-
+		fail("Not yet implemented");
 	}
 
 	@Test
 	public void testUpdateObject() {
-
-	}
-
-	@Test
-	public void testDeleteSubject() {
-
+		fail("Not yet implemented");
 	}
 
 }
